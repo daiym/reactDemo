@@ -17,6 +17,7 @@ import Serverinfo from './Serverinfo';//Serverinfo
 import Chatlogs from './Chatlogs';//Chatlogs
 import PayLogs from './PayLogs';//PayLogs
 import Vipcount from './Vipcount';//Vipcount
+import Testpay from './Testpay';//Testpay
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -165,6 +166,12 @@ class Home extends Component {
                 <span>VIP7 Count</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="18">
+              <Link to="/testpay">
+                <Icon type="desktop" />
+                <span>Test Pay</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -190,6 +197,7 @@ class Home extends Component {
               <Route path="/chatlogs" component={Chatlogs}/>
               <Route path="/paylogs" component={PayLogs}/>
               <Route path="/vip 7" component={Vipcount}/>
+              <Route path="/testpay" component={Testpay}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
