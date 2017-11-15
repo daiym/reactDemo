@@ -51,7 +51,6 @@ class Testpay extends Component{
 	}
 	
 	render(){
-		console.log(this.state.sessionid)
 		const col = [{
 			title:'testpay',
 			dataIndex:'testpay',

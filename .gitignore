@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 # 忽略文件
 node_modules/
+=======
+node_modules
+>>>>>>> 101addb45b49f517f887994de5c51a4974fd2fff
