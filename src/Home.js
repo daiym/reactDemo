@@ -63,7 +63,7 @@ class Home extends Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='marB'>
             <Menu.Item key="1">
               <Link to="/">
                 <Icon type="pie-chart" />
