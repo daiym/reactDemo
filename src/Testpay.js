@@ -11,7 +11,8 @@ class Testpay extends Component{
 		super(props);
 		this.state = ({
 			sessionid:'',
-			id:''
+			id:'',
+			tab:[]
 		})
 	}
 
@@ -21,6 +22,16 @@ class Testpay extends Component{
 			[name]:e.target.value
 		})
 	};
+
+	idajax = (sessionid,id) => {
+		console.log(sessionid,id)
+		Ajax({sessionid:sessionid , dataid:id},"role.pay.testpay").then(function(r){
+			if(r.data.errorcode == 0){
+				var data = JSON.parse(r.data.result);
+				console.log(data);
+			}
+		})
+	}
 
 	sessionidajax = () => {
 		var _this = this;
@@ -37,14 +48,19 @@ class Testpay extends Component{
 	                payInfo.push(data.promotion[i].id);
 	            }
 	            payInfo = payInfo.sort(function(a,b){return a - b});
-	            console.log(payInfo)
-	            // for(var i = 0 ; i < payInfo.length; i++){
-	            // 	var dataid = payInfo[i];
-	            // 	var s = {};
-	            // 	s = i;
-	            // 	s.testpay = dataid;
-	            // 	s.name = 
-	            // }
+	            for(var i = 0 ; i < payInfo.length; i++){
+	            	var dataid = payInfo[i];
+	            	var s = i;
+					s = {};
+					s.key = i+1;
+	            	s.testpay = <Button type="primary" onClick={() =>_this.idajax(_this.state.sessionid,dataid)} >testpay</Button>;
+					s.name = dataid;
+					testpaytab.push(s);
+				};
+				_this.setState ({
+					tab:testpaytab
+				})
+							
 			}
 			
 		})
@@ -62,11 +78,12 @@ class Testpay extends Component{
 		}]
 		return(
 			<div>
+				<ContentHeader header='Test pay' />
 				<Input name='seesionid:' val='seesionid' onChange={(e) => this.value('sessionid',e)} />
 				<But name='查询' onClick={this.sessionidajax} />
 				<Input name='id:' val='id' onChange={(e) => this.value('id',e)} />
-				<But name='testpay' />
-				<Tab columns={col} />
+				<But name='testpay' onClick={() => this.idajax(this.state.sessionid,this.state.id)} />
+				<Tab columns={col} dataSource={this.state.tab} />
 			</div>
 		)
 	}

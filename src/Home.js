@@ -18,6 +18,8 @@ import Chatlogs from './Chatlogs';//Chatlogs
 import PayLogs from './PayLogs';//PayLogs
 import Vipcount from './Vipcount';//Vipcount
 import Testpay from './Testpay';//Testpay
+import Forbidroles from './Forbidroles';//Forbidroles
+import Forceswitch from './Forceswitch';//Forceswitch
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -172,6 +174,18 @@ class Home extends Component {
                 <span>Test Pay</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="19">
+              <Link to="/forbidroles">
+                <Icon type="desktop" />
+                <span>Forbidroles</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="20">
+              <Link to="/forceswitch">
+                <Icon type="desktop" />
+                <span>Forceswitch</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -198,6 +212,8 @@ class Home extends Component {
               <Route path="/paylogs" component={PayLogs}/>
               <Route path="/vip 7" component={Vipcount}/>
               <Route path="/testpay" component={Testpay}/>
+              <Route path="/forbidroles" component={Forbidroles}/>
+              <Route path="/forceswitch" component={Forceswitch}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
