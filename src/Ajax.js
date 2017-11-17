@@ -21,8 +21,10 @@ function postAxios(args, cmd) {
   }).then(function (data) {
     if (data.data.errorcode == 6) {
       return window.location.href = '/login';
+    }else if(data.data.errorcode == 0){
+      return data;
     }
-    return data;
+    
   })
 }
 

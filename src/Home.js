@@ -20,12 +20,12 @@ import Vipcount from './Vipcount';//Vipcount
 import Testpay from './Testpay';//Testpay
 import Forbidroles from './Forbidroles';//Forbidroles
 import Forceswitch from './Forceswitch';//Forceswitch
+import Marcharmy from './Marcharmy';//Marcharmy
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
-
 
 class Home extends Component {
   constructor(props){
@@ -186,6 +186,12 @@ class Home extends Component {
                 <span>Forceswitch</span>
               </Link>
             </Menu.Item>
+             <Menu.Item key="21">
+              <Link to="/marcharmy">
+                <Icon type="desktop" />
+                <span>出征队列查询&操作</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -214,6 +220,7 @@ class Home extends Component {
               <Route path="/testpay" component={Testpay}/>
               <Route path="/forbidroles" component={Forbidroles}/>
               <Route path="/forceswitch" component={Forceswitch}/>
+              <Route path="/marcharmy" component={Marcharmy}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
