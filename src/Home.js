@@ -21,6 +21,7 @@ import Testpay from './Testpay';//Testpay
 import Forbidroles from './Forbidroles';//Forbidroles
 import Forceswitch from './Forceswitch';//Forceswitch
 import Marcharmy from './Marcharmy';//Marcharmy
+import BuildKey from './BuildKey';//BuildKey
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -186,10 +187,16 @@ class Home extends Component {
                 <span>Forceswitch</span>
               </Link>
             </Menu.Item>
-             <Menu.Item key="21">
+            <Menu.Item key="21">
               <Link to="/marcharmy">
                 <Icon type="desktop" />
                 <span>出征队列查询&操作</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="22">
+              <Link to="/buildkey">
+                <Icon type="desktop" />
+                <span>激活码</span>
               </Link>
             </Menu.Item>
           </Menu>
@@ -221,6 +228,7 @@ class Home extends Component {
               <Route path="/forbidroles" component={Forbidroles}/>
               <Route path="/forceswitch" component={Forceswitch}/>
               <Route path="/marcharmy" component={Marcharmy}/>
+              <Route path="/BuildKey" component={BuildKey}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
