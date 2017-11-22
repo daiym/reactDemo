@@ -5,6 +5,9 @@ function postAxios(args, cmd) {
   const token = localStorage['token@' + localStorage.name];
   const signkey = localStorage['signkey@' + localStorage.name];
   const time = '' + parseInt(new Date().getTime() / 1000);
+  if(token == undefined || signkey == undefined){
+    return window.location.href = '/login';
+  };
   return axios({
     url: '/gmservice',
     method: 'post',
