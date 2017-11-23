@@ -152,8 +152,10 @@ class Buildkey extends Component{
 			a.push(mailitem[index])
 		})
 		return a.map((data,index) => {
-				var num = JSON.stringify(data.num);
-				return <Option key={index} value={num}>{'(id:'+ num +')'+data.langs.cn}</Option>;
+				// var num = JSON.stringify(data.num);
+				// console.log(typeof(num))
+				// console.log(parseInt(num))
+				return <Option key={index} value={data.num}>{'(id:'+ data.num +')'+data.langs.cn}</Option>;
 				})
 	};
 
@@ -224,6 +226,7 @@ class Buildkey extends Component{
 		data[lang].title1 = this.state.title1;
 		data[lang].title2 = this.state.title2;
 		data[lang].content = this.state.content;
+		console.log(data);
 		this.datalang(data);
 	};
 
@@ -233,7 +236,6 @@ class Buildkey extends Component{
 		var item = this.state.item;
 		console.log(this.state.item)
 		data[item] = parseInt(this.state.itemcount);
-		console.log(data);
 		this.itemtable(data);
 	};
 
@@ -242,9 +244,9 @@ class Buildkey extends Component{
 		var a =[];
 		for(var item in data){
 			var s = {};
+			item = parseInt(item)
 			s.key = item;
-			s.item = item;
-			console.log(gamedata.items[item].langs.cn)
+			s.item = `${gamedata.items[item].langs.cn}(${item})`;
 			s.count = data[item];
 			s.cz = <div><Button type="primary" >Delete</Button><Button type="primary" >-</Button><Button type="primary" >+</Button></div>
 			a.push(s);
