@@ -20,12 +20,17 @@ class Buildkey extends Component{
 		super(props);
 		this.state = ({
 			tab:[],
+			plat:'',
 			lang:'',
 			title1:'',
 			title2:'',
 			content:'',
 			datalangs:{},
-			tablangs:[]
+			dataitems:{},
+			tablangs:[],
+			tabitems:[],
+			item:'',
+			itemcount:''
 		})
 	}
 
@@ -137,6 +142,21 @@ class Buildkey extends Component{
 				})
 	};
 
+	//item
+	itemdata = () => {
+		var mailitem = gamedata.items;
+		var list = Object.keys(mailitem);
+		var a = [];
+		list.map((index) => {
+			mailitem[index].num = index;
+			a.push(mailitem[index])
+		})
+		return a.map((data,index) => {
+				var num = JSON.stringify(data.num);
+				return <Option key={index} value={num}>{'(id:'+ num +')'+data.langs.cn}</Option>;
+				})
+	};
+
 	//value
 	value = (name,e) => {
 		this.setState ({
@@ -151,40 +171,32 @@ class Buildkey extends Component{
 		});
 		if(name == 'lang'){
 			var data = this.state.datalangs;
-			if(value != data[value]){
+			if(!data[value]){
 				this.setState ({
 					title1:'',
 					title2:'',
 					content:''
 				})
+			}else{
+				this.setState ({
+					title1:data[value].title1,
+					title2:data[value].title2,
+					content:data[value].content
+				})
 			}
 		}
 	};
 
-	//lang大对象
-	// datalang = () => {
-	// 	var data = {};
-	// 	var lang = this.state.lang;
-	// 	data[lang] = {};
-	// 	data[lang].title1 = this.state.title1;
-	// 	data[lang].title2 = this.state.title2;
-	// 	data[lang].content = this.state.content;
-	// 	return this.setState ({
-	// 				datalangs:data
-	// 			});
-	// };
-
-	//lang 表格
-	langtable = () => {
+	//删除lang
+	deletelang = (lang) => {
 		var data = this.state.datalangs;
-		var lang = this.state.lang;
-		// if(data[lang]){
-			
-		// };
-		data[lang] = {};
-		data[lang].title1 = this.state.title1;
-		data[lang].title2 = this.state.title2;
-		data[lang].content = this.state.content;
+		delete data[lang];
+		this.datalang(data);
+		console.log(data);
+	};
+
+	//lang 表格数据
+	datalang = (data) => {
 		var a =[];
 		var num = 0;
 		for(var lang in data){
@@ -195,7 +207,7 @@ class Buildkey extends Component{
 			s.title1 = data[lang].title1;
 			s.title2 = data[lang].title2;
 			s.content = data[lang].content;
-			s.cz = <Button type="primary">Delete</Button>
+			s.cz = <Button type="primary" onClick={() => this.deletelang(lang)} >Delete</Button>
 			a.push(s);
 		};
 		this.setState ({
@@ -204,8 +216,47 @@ class Buildkey extends Component{
 		});
 	};
 
+	//拼接lang
+	langtable = () => {
+		var data = this.state.datalangs;
+		var lang = this.state.lang;
+		data[lang] = {};
+		data[lang].title1 = this.state.title1;
+		data[lang].title2 = this.state.title2;
+		data[lang].content = this.state.content;
+		this.datalang(data);
+	};
+
+	//拼接item
+	dataitem = () => {
+		var data  = this.state.dataitems;
+		var item = this.state.item;
+		console.log(this.state.item)
+		data[item] = parseInt(this.state.itemcount);
+		console.log(data);
+		this.itemtable(data);
+	};
+
+	//item  表格数据
+	itemtable = (data) => {
+		var a =[];
+		for(var item in data){
+			var s = {};
+			s.key = item;
+			s.item = item;
+			console.log(gamedata.items[item].langs.cn)
+			s.count = data[item];
+			s.cz = <div><Button type="primary" >Delete</Button><Button type="primary" >-</Button><Button type="primary" >+</Button></div>
+			a.push(s);
+		}
+		this.setState ({
+			dataitems:data,
+			tabitems:a
+		})
+	}
+
+
 	render(){
-		console.log(this.state.title2)
 		const column = [{
 			title:'id',
 			dataIndex:'id',
@@ -307,7 +358,7 @@ class Buildkey extends Component{
 			    	<Tab columns={column} dataSource={this.state.tab} />
 			    </TabPane>
 			    <TabPane tab="激活码内容" key="2">
-			    	<Inputs name='平台id:' val='平台id' />
+			    	<Inputs name='平台id:' val='平台id' onChange={(e) => this.value('plat',e)} />
 			    	<DateTime name='开始时间' defaulttime={this.datatime()} />
 					<DateTime name='结束时间' defaulttime={this.datatime()} />
 					<Selects name='lang:' val='请选择' data={this.lang()} onChange={ (value) => this.typesvr('lang',value)} />
@@ -317,10 +368,10 @@ class Buildkey extends Component{
 					<But name='添加' onClick={this.langtable} />
 					<Tab columns={columns} dataSource={this.state.tablangs} />
 					<hr />
-					<Selects name='item:' val='请选择' />
-					<Inputs name='count:' val='count' />
-					<But name='添加' />
-					<Tab columns={column1} />
+					<Selects name='item:' val='请选择' data={this.itemdata()} onChange={ (value) => this.typesvr('item',value)} />
+					<Inputs name='count:' val='count' onChange={(e) => this.value('itemcount',e)} />
+					<But name='添加' onClick={this.dataitem} />
+					<Tab columns={column1} dataSource={this.state.tabitems} />
 					<hr />
 					<But name='生效' />
 					<Tab columns={column2} />
