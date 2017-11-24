@@ -186,6 +186,17 @@ class Buildkey extends Component{
 					content:data[value].content
 				})
 			}
+		}else if(name == 'item'){
+			var data = this.state.dataitems;
+			if(!data[value]){
+				this.setState ({
+					itemcount:''
+				})
+			}else{
+				this.setState ({
+					itemcount:data[value]
+				})
+			}
 		}
 	};
 
@@ -234,7 +245,6 @@ class Buildkey extends Component{
 	dataitem = () => {
 		var data  = this.state.dataitems;
 		var item = this.state.item;
-		console.log(this.state.item)
 		data[item] = parseInt(this.state.itemcount);
 		this.itemtable(data);
 	};
@@ -248,14 +258,35 @@ class Buildkey extends Component{
 			s.key = item;
 			s.item = `${gamedata.items[item].langs.cn}(${item})`;
 			s.count = data[item];
-			s.cz = <div><Button type="primary" >Delete</Button><Button type="primary" >-</Button><Button type="primary" >+</Button></div>
+			s.cz = <div><Button type="primary" onClick={() => this.deleteitem(item)} >Delete</Button><Button type="primary" onClick={() => this.jianitem(item)} >-</Button><Button type="primary" onClick={() => this.jiaitem(item)}>+</Button></div>
 			a.push(s);
 		}
 		this.setState ({
 			dataitems:data,
 			tabitems:a
 		})
-	}
+	};
+
+	deleteitem = (item) => {
+		var data = this.state.dataitems;
+		delete data[item];
+		this.itemtable(data);
+	};
+
+	jianitem = (item) => {
+		var data = this.state.dataitems;
+		data[item]--;
+		if(data[item] == 0){
+			delete data[item];
+		};
+		this.itemtable(data);
+	};
+
+	jiaitem = (item) => {
+		var data = this.state.dataitems;
+		data[item]++;
+		this.itemtable(data);
+	};
 
 
 	render(){
@@ -371,7 +402,7 @@ class Buildkey extends Component{
 					<Tab columns={columns} dataSource={this.state.tablangs} />
 					<hr />
 					<Selects name='item:' val='请选择' data={this.itemdata()} onChange={ (value) => this.typesvr('item',value)} />
-					<Inputs name='count:' val='count' onChange={(e) => this.value('itemcount',e)} />
+					<Inputvalue name='count:' val='count' value={this.state.itemcount} onChange={(e) => this.value('itemcount',e)} />
 					<But name='添加' onClick={this.dataitem} />
 					<Tab columns={column1} dataSource={this.state.tabitems} />
 					<hr />
