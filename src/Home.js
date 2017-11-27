@@ -22,6 +22,8 @@ import Forbidroles from './Forbidroles';//Forbidroles
 import Forceswitch from './Forceswitch';//Forceswitch
 import Marcharmy from './Marcharmy';//Marcharmy
 import BuildKey from './BuildKey';//BuildKey
+import Generalpowerladder from './Generalpowerladder';//Generalpowerladder
+import Globalcraft from './Globalcraft';//Globalcraft
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -199,6 +201,18 @@ class Home extends Component {
                 <span>激活码</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="23">
+              <Link to="/generalpowerladder">
+                <Icon type="desktop" />
+                <span>军官战力排行榜</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="24">
+              <Link to="/globalcraft">
+                <Icon type="desktop" />
+                <span>跨服军备竞赛</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -229,6 +243,8 @@ class Home extends Component {
               <Route path="/forceswitch" component={Forceswitch}/>
               <Route path="/marcharmy" component={Marcharmy}/>
               <Route path="/BuildKey" component={BuildKey}/>
+              <Route path="/generalpowerladder" component={Generalpowerladder}/>
+              <Route path="/globalcraft" component={Globalcraft}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

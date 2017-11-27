@@ -30,13 +30,19 @@ class Buildkey extends Component{
 			tablangs:[],
 			tabitems:[],
 			item:'',
-			itemcount:''
-		})
-	}
+			itemcount:'',
+			beg:'',
+			end:'',
+			tab1:[],
+			code:'',
+			count:'',
+			link:''
+		});
+	};
 
 	callback = (key) => {
 		console.log(key);
-	}
+	};
 
 	istime = (is) => {
 		if(is == 0){
@@ -55,11 +61,11 @@ class Buildkey extends Component{
 		};
 	};
 
-	isCopyButton = (is) => {
+	isCopyButton = (is,lang,item) => {
 		if(is > 0){
 			return ''
 		}else{
-			return <Button type="primary">Copy</Button>
+			return <Button type="primary" onClick={() => this.copy(lang,item)} >Copy</Button>
 		};
 	};
 
@@ -113,16 +119,31 @@ class Buildkey extends Component{
 					s.plat = getallKeys.platinfo;
 					s.display = _this.isdisable(getallKeys.disable,getallKeys.num);
 					s.usecount = getallKeys.usecount;
-					var isCopyButton= _this.isCopyButton(getallKeys.dataid);
+					var isCopyButton= _this.isCopyButton(getallKeys.dataid, getallKeys.content.langs, getallKeys.content.items);
 					var isDelButton = _this.isDelButton(getallKeys.disable,getallKeys.num);
 					s.cz = <div>{isCopyButton}{isDelButton}<Button type="primary">查看信息</Button></div>							
 					table.push(s);
-				}
+				};
+				var t = new Date();
+				var time = t.getTime()
 				_this.setState ({
-					tab:table
+					tab:table,
+					beg:time,
+					end:time,
+					boo:true
 				});
 			}
 		})
+	};
+
+	copy = (lang,item) => {
+		console.log(lang,item)
+		if(Object.keys(lang) != 0){
+			this.datalang(lang);
+		}
+		if(Object.keys(item) != 0){
+			this.itemtable(item);
+		}
 	};
 
 	//默认日历当天时间
@@ -130,6 +151,17 @@ class Buildkey extends Component{
 		var s = new Date();
 		var c = Formats(s);	
 		return c;
+	};
+
+	//time
+	datetime = (name,date,dateString) => {
+		if(date != null){
+			console.log(date, dateString ,date._d);
+			var a = (date._d).getTime();
+			this.setState ({
+				[name]:a
+			});
+		};
 	};
 
 	//语言
@@ -237,7 +269,6 @@ class Buildkey extends Component{
 		data[lang].title1 = this.state.title1;
 		data[lang].title2 = this.state.title2;
 		data[lang].content = this.state.content;
-		console.log(data);
 		this.datalang(data);
 	};
 
@@ -287,6 +318,65 @@ class Buildkey extends Component{
 		data[item]++;
 		this.itemtable(data);
 	};
+
+	//生效ajax
+	buildKeyajax = () => {
+		var _this = this;
+		Ajax({plat:_this.state.plat, 
+			dataid:0, 
+			usecount:0, 
+			begintime:_this.state.beg, 
+			endtime:_this.state.end,
+			items:_this.state.dataitems,
+			langs:_this.state.datalangs},"activation.code.buildkey").then(function(r){
+				var data = JSON.parse(r.data.result);
+				console.log(data)
+				if(data){
+					var a = [];
+					var s = {};
+					s.key = data.dataid;
+					s.plat = data.plat;
+					s.begintime = Format(data.begintime);
+					s.endtime = Format(data.endtime);
+					s.dataid = data.dataid;
+					s.usecount = data.usecount;
+					a.push(s);
+					console.log(data.code)
+					_this.setState ({
+						tab1:a,
+						code:data.code
+					})
+				};
+			});
+	};
+
+	//生成激活码ajax
+	getQrCodeajax = (e) => {	
+		if(this.state.boo){
+			e.preventDefault();
+		}	
+		var _this = this;
+		Ajax({code:_this.state.code, count:_this.state.count},"activation.code.outcodes").then(function(r){
+			var data = JSON.parse(r.data.result);
+			console.log(data)
+			if(data){
+				var codeGet = "";
+	            for(var i = 0; i < data.length; ++i) {
+	                codeGet += data[i] + '\r\n';
+	            };
+	            if(codeGet != ''){
+	            	var a = new Blob([codeGet]);
+	            	var link = URL.createObjectURL(a);
+	            }
+	            _this.setState ({
+	            	link:link,
+	            	boo:false
+	            })
+			}
+		})
+	}
+
+	
 
 
 	render(){
@@ -392,8 +482,8 @@ class Buildkey extends Component{
 			    </TabPane>
 			    <TabPane tab="激活码内容" key="2">
 			    	<Inputs name='平台id:' val='平台id' onChange={(e) => this.value('plat',e)} />
-			    	<DateTime name='开始时间' defaulttime={this.datatime()} />
-					<DateTime name='结束时间' defaulttime={this.datatime()} />
+			    	<DateTime name='开始时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('beg',date,dateString)} />
+					<DateTime name='结束时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('end',date,dateString)} />
 					<Selects name='lang:' val='请选择' data={this.lang()} onChange={ (value) => this.typesvr('lang',value)} />
 					<Inputvalue name='title1:' val='title1' value={this.state.title1} onChange={(e) => this.value('title1',e)} />
 					<Inputvalue name='title2:' val='title2' value={this.state.title2} onChange={(e) => this.value('title2',e)} />
@@ -406,10 +496,14 @@ class Buildkey extends Component{
 					<But name='添加' onClick={this.dataitem} />
 					<Tab columns={column1} dataSource={this.state.tabitems} />
 					<hr />
-					<But name='生效' />
-					<Tab columns={column2} />
-					<Inputs name='验证码数量:' val='验证码数量' />
-					<But name='生成激活码' />
+					<But name='生效' onClick={this.buildKeyajax} />
+					<Tab columns={column2} dataSource={this.state.tab1} />
+					<Inputs name='验证码数量:' val='验证码数量' onChange={(e) => this.value('count',e)} />
+					<div>
+						<a href={this.state.link} download='buildKey-outCodes.txt' onClick={(e) => this.getQrCodeajax(e) } >
+							<But name='生成激活码' />
+						</a>
+					</div>
 			    </TabPane>
 			  </Tabs>
 			</div>

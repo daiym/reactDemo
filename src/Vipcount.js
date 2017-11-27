@@ -15,6 +15,9 @@ class Vipcount extends Component {
 	componentDidMount(){
 		var _this = this;
 		Ajax({},"role.vip7.rolelist").then(function(r){
+			if(!r){
+				return console.log('11')
+			}
 			if(r.data.errorcode == 0){
 				var data = JSON.parse(r.data.result);
 				//r如果不是对象，就是把JSON.parse，如果是对象就直接用；

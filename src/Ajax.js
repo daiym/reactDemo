@@ -22,11 +22,15 @@ function postAxios(args, cmd) {
       token: token
     })
   }).then(function (data) {
-    if (data.data.errorcode != 0) {
+    if (data.data.errorcode == 6) {
       return window.location.href = '/login';
     }else if(data.data.errorcode == 0){
       return data;
+    // }
+    }else if(data.data.errorcode != 0){
+      console.log('data.data.errorcode: ',data.data.errorcode,'data.data.message: ',data.data.message);
     }
+
     
   })
 }
