@@ -129,8 +129,7 @@ class Buildkey extends Component{
 				_this.setState ({
 					tab:table,
 					beg:time,
-					end:time,
-					boo:true
+					end:time
 				});
 			}
 		})
@@ -351,10 +350,7 @@ class Buildkey extends Component{
 	};
 
 	//生成激活码ajax
-	getQrCodeajax = (e) => {	
-		if(this.state.boo){
-			e.preventDefault();
-		}	
+	getQrCodeajax = () => {	
 		var _this = this;
 		Ajax({code:_this.state.code, count:_this.state.count},"activation.code.outcodes").then(function(r){
 			var data = JSON.parse(r.data.result);
@@ -367,14 +363,18 @@ class Buildkey extends Component{
 	            if(codeGet != ''){
 	            	var a = new Blob([codeGet]);
 	            	var link = URL.createObjectURL(a);
-	            }
+				}
+				console.log(link)
 	            _this.setState ({
-	            	link:link,
-	            	boo:false
-	            })
+	            	link:link
+	            },_this.onclick);
 			}
 		})
-	}
+	};
+
+	onclick = () => {
+		this.dom.click();
+	};
 
 	
 
@@ -500,7 +500,8 @@ class Buildkey extends Component{
 					<Tab columns={column2} dataSource={this.state.tab1} />
 					<Inputs name='验证码数量:' val='验证码数量' onChange={(e) => this.value('count',e)} />
 					<div>
-						<a href={this.state.link} download='buildKey-outCodes.txt' onClick={(e) => this.getQrCodeajax(e) } >
+						<But name='生成激活码' onClick={this.getQrCodeajax} />
+						<a href={this.state.link} download='buildKey-outCodes.txt' ref={c => this.dom = c} style={{display:'none'}}>
 							<But name='生成激活码' />
 						</a>
 					</div>

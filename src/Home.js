@@ -66,6 +66,7 @@ class Home extends Component {
           collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
+          style={{overflowX:'auto'}}
         >
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" className='marB'>
