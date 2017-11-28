@@ -125,7 +125,7 @@ class Buildkey extends Component{
 					table.push(s);
 				};
 				var t = new Date();
-				var time = t.getTime()
+				var time = t.getTime();
 				_this.setState ({
 					tab:table,
 					beg:time,
