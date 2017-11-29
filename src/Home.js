@@ -24,6 +24,8 @@ import Marcharmy from './Marcharmy';//Marcharmy
 import BuildKey from './BuildKey';//BuildKey
 import Generalpowerladder from './Generalpowerladder';//Generalpowerladder
 import Globalcraft from './Globalcraft';//Globalcraft
+import Batteryfight from './Batteryfight';//Batteryfight
+import RobotManager from './RobotManager';//RobotManager
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -214,6 +216,18 @@ class Home extends Component {
                 <span>跨服军备竞赛</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="25">
+              <Link to="/batteryfight">
+                <Icon type="desktop" />
+                <span>边境堡垒</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="26">
+              <Link to="/robotManager">
+                <Icon type="desktop" />
+                <span>机器人</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -246,6 +260,8 @@ class Home extends Component {
               <Route path="/BuildKey" component={BuildKey}/>
               <Route path="/generalpowerladder" component={Generalpowerladder}/>
               <Route path="/globalcraft" component={Globalcraft}/>
+              <Route path="/batteryfight" component={Batteryfight}/>
+              <Route path="/robotManager" component={RobotManager}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

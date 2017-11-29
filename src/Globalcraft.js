@@ -127,14 +127,14 @@ class globalcraft extends Component {
 						var r = JSON.parse(data[i]);
 						var s = {};
 						s.key = i;
-						s.svr = i;
-						s.keys = r.key;
-						s.begtime = Format(r.begintime);
-						s.days = r.days;
-						s.closedays = r.closedays;
+						s.svr = <div className='colorred'>{i}</div>;
+						s.keys = <div className='colorred'>{r.key}</div>;
+						s.begtime = <div className='colorred'>{Format(r.begintime)}</div>;
+						s.days = <div className='colorred'>{r.days}</div>;
+						s.closedays = <div className='colorred'>{r.closedays}</div>;
 						a.push(s);
 					}catch(e){
-						message.info(`${i}服务器${r[i]}`);
+						message.info(`${i}服务器${data[i]}`);
 					}
 				};
 				_this.setState ({
