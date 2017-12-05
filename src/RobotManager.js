@@ -27,7 +27,7 @@ class RobotManager extends Component {
 			tab1:[],
 			tab2:[],
 			visible:false,
-			datatitle:''
+			sess:''
 		})
 	};
 
@@ -74,12 +74,12 @@ class RobotManager extends Component {
 	detailget = (svrid) => {
 		var _this = this;
 		Ajax({svrid : svrid},"server.robot.detail.get").then((r) => {
-			console.log(svrid)
 			var data = JSON.parse(r.data.result);
 			console.log(data);
 			var dataobj = [];
 			data.map((item,index) => {
 				var obj = {};
+				let sess = item.sessionid;
 				obj.key = index;
 				obj.index = index+1;
 				obj.svr = svrid;
@@ -90,8 +90,8 @@ class RobotManager extends Component {
 				obj.rolelevel = item.rolelevel;
 				obj.pos = `x:${item.posx},y:${item.posy}`;
 				obj.cz = <div>
-							<Button type="primary" onClick={() => this.joinleague(item.sessionid,_this.state.leagueid)} >加联盟</Button>
-							<Button type="primary" onClick={() => _this.detailget(item.sessionid)} >联盟迁城</Button>
+							<Button type="primary" onClick={() => this.joinleague(sess)} >加联盟</Button>
+							<Button type="primary" onClick={() => _this.leaguemove(sess)} >联盟迁城</Button>
 						</div>;
 				dataobj.push(obj);
 			})
@@ -99,7 +99,7 @@ class RobotManager extends Component {
 				tab2:dataobj
 			});
 		})
-	}
+	};
 
 	//下拉
 	xiala = (name,value) => {
@@ -125,41 +125,51 @@ class RobotManager extends Component {
 	};
 
 	//加联盟
-	joinleague = (sessionid,leagueid) => {
+	joinleague = (sess) => {
 		this.setState ({
-			visible:true
+			visible:true,
+			sess:sess
 		});
-
-		this.handleOk(sessionid,leagueid)
 	};
 
-	handleOk = (sessionid,leagueid) => {
-		<Modal
-			title="title"
-			visible={this.state.visible}
-			onOk={this.handleOk}
-			onCancel={this.handleCancel}
-			>
-			<Inputs name='leagueid:' val='leagueid' onChange={(e) => this.value('leagueid',e)} />
-		</Modal>
+	handleOk = () => {
+		var _this = this;
+		Ajax({sessionid:_this.state.sess, leagueid:_this.state.leagueid },"role.roleinfo.joinleague").then(function(r){
+			var data = JSON.parse(r.data.result);
+			console.log(data);
+		})
 		this.setState ({
 			visible:false
 		});
-		console.log(sessionid,leagueid)
-		// Ajax({sessionid:sessionid , leagueid:leagueid },"role.roleinfo.joinleague").then(function(r){
-		// 	var data = JSON.parse(r.data.result);
-		// 	console.log(data);
-		// })
-
 	};
 
 	onCancel = () => {
 		this.setState ({
 			visible:false
 		});
-		this.joinleague(this.state.datatitle,this.state.leagueid);
 	};	
 
+	//联盟迁城
+	leaguemove = (sessionid) => {
+		Ajax({sessionid:sessionid},"role.roleinfo.leaguemove").then(function(r){
+			var data = JSON.parse(r.data.result);
+			console.log(data);
+		});
+	};
+
+	//开启
+	configset = (svrid,count,levelmin,levelmax,rolelevel,resource,units) => {
+		Ajax({svrid:svrid,
+			count:count,
+			levelmin:levelmin,
+			levelmax:levelmax,
+			rolelevel:rolelevel,
+			resource:resource,
+			units:units},"server.robot.config.set").then(function(r){
+				var data = JSON.parse(r.data.result);
+				console.log(data);
+			});
+	};
 
 	render(){
 		const colunm1 = [{
@@ -231,6 +241,14 @@ class RobotManager extends Component {
 		return (
 			<div>
 				<ContentHeader header='机器人' />
+				<Modal
+					title="title"
+					visible={this.state.visible}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+					>
+					<Inputs name='leagueid:' val='leagueid' onChange={(e) => this.value('leagueid',e)} />
+				</Modal>
 				<Tab columns={colunm1} dataSource={this.state.tab1} />
 				<Selects name='svr:' val='请选择' data={this.server()} onChange={ (value) => this.xiala('svr',value)}/>
 				<Inputs name='count:' val='count' onChange={(e) => this.value('count',e)} />
@@ -239,7 +257,7 @@ class RobotManager extends Component {
 				<Inputs name='rolelevel:' val='rolelevel' onChange={(e) => this.value('rolelevel',e)} />
 				<Inputs name='resource:' val='resource' onChange={(e) => this.value('resource',e)} />
 				<Inputs name='units:' val='units' onChange={(e) => this.value('units',e)} />
-				<But name='开启' />
+				<But name='开启' onClick={() => this.configset(this.state.svr,this.state.count,this.state.levelmin,this.state.levelmax,this.state.rolelevel,this.state.resource,this.state.units)} />
 				<Tab columns={colunm2} dataSource={this.state.tab2} />
 			</div>
 		)

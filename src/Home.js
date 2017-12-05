@@ -26,6 +26,7 @@ import Generalpowerladder from './Generalpowerladder';//Generalpowerladder
 import Globalcraft from './Globalcraft';//Globalcraft
 import Batteryfight from './Batteryfight';//Batteryfight
 import RobotManager from './RobotManager';//RobotManager
+import Activition from './Activition';//Activition
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -228,6 +229,12 @@ class Home extends Component {
                 <span>机器人</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="27">
+              <Link to="/activition">
+                <Icon type="desktop" />
+                <span>服务器活动</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -262,6 +269,7 @@ class Home extends Component {
               <Route path="/globalcraft" component={Globalcraft}/>
               <Route path="/batteryfight" component={Batteryfight}/>
               <Route path="/robotManager" component={RobotManager}/>
+              <Route path="/activition" component={Activition}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

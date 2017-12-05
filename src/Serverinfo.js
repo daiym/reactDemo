@@ -82,7 +82,7 @@ class Serverlog extends Component {
 								s.servers = <div>starttime: {info.server.starttime}<br/>
 											endtime: {info.server.endtime}<br/>
 											status: {info.server.status}<br/>
-											dayhtml</div>;
+											{dayhtml}</div>;
 							}else{
 								s.servers = '';
 							};
