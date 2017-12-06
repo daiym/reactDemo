@@ -27,6 +27,8 @@ import Globalcraft from './Globalcraft';//Globalcraft
 import Batteryfight from './Batteryfight';//Batteryfight
 import RobotManager from './RobotManager';//RobotManager
 import Activition from './Activition';//Activition
+import Version from './Version';//Version
+import Worldboss from './Worldboss';//Worldboss
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -235,6 +237,18 @@ class Home extends Component {
                 <span>服务器活动</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="28">
+              <Link to="/version">
+                <Icon type="desktop" />
+                <span>版本信息</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="29">
+              <Link to="/worldboss">
+                <Icon type="desktop" />
+                <span>Worldboss</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -270,6 +284,8 @@ class Home extends Component {
               <Route path="/batteryfight" component={Batteryfight}/>
               <Route path="/robotManager" component={RobotManager}/>
               <Route path="/activition" component={Activition}/>
+              <Route path="/version" component={Version}/>
+              <Route path="/worldboss" component={Worldboss}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
