@@ -19,7 +19,9 @@ class Warland extends Component {
             show:'',
             beg:'',
             end:'',
-            close:''
+            close:'',
+            tab1:[],
+            tab2:[]
         });
     };
 
@@ -50,11 +52,61 @@ class Warland extends Component {
         Ajax({},"servers.warland.infos").then((r) => {
             var data = JSON.parse(r.data.result);
 			console.log('列表:',data);
+            if(data.length != 0){
+                var dataobj = [];
+                data.map((item,index) => {
+                    var obj = {};
+                    obj.key = index;
+                    obj.keys = item.key;
+                    obj.svrs = item.info.bases.svrs;
+                    obj.svrid = item.info.bases.svrid;
+                    obj.show = Format(item.info.bases.showtime);
+                    obj.beg = Format(item.info.bases.opentime);
+                    obj.end = Format(item.info.bases.closetime);
+                    obj.close = Format(item.info.bases.donetime);
+                    obj.isopen = ''+item.isopen;
+                    obj.enable = ''+item.info.enable;
+                    obj.cz = <Button type="primary" onClick={() => _this.disable(item.key)}>禁用</Button>
+                    dataobj.push(obj);
+                });
+                _this.setState ({
+                    tab1:dataobj
+                })
+            }
         });
         //服务器
         Ajax({},"servers.warland.servers").then((r) => {
             var data = JSON.parse(r.data.result);
 			console.log('服务器:',data);
+            if(Object.keys(data) != 0){
+                var dataobj = [];
+                for(var i in data){
+                    try{
+                        var datas = JSON.parse(data[i]);
+                        
+                        if(datas){
+                            var obj = {};
+                            obj.key = i;
+                            obj.svr = i;
+                            obj.keys = datas.eventid;
+                            obj.show = Format(datas.showtime);
+                            obj.beg = Format(datas.opentime);
+                            obj.end = Format(datas.closetime);
+                            obj.close = Format(datas.donetime);
+                            obj.border = datas.border;
+                            obj.closed = ''+datas.closed;
+                            obj.svrs = datas.svrs;
+                            obj.svrid = datas.svrid;
+                            dataobj.push(obj)
+                        }
+                    }catch(e){
+                        message.info(`${i}服务器${data[i]}`);
+                    }
+                };
+                _this.setState ({
+                    tab2:dataobj
+                })
+            } 
         });
         var t = new Date();
 		var time = t.getTime()
@@ -103,8 +155,8 @@ class Warland extends Component {
     render(){
         const colunm = [{
             title:'key',
-			dataIndex:'key',
-			key:'key'
+			dataIndex:'keys',
+			key:'keys'
         }, {
             title:'svrs',
 			dataIndex:'svrs',
@@ -148,8 +200,8 @@ class Warland extends Component {
 			key:'svr'
         }, {
             title:'key',
-			dataIndex:'key',
-			key:'key'
+			dataIndex:'keys',
+			key:'keys'
         }, {
             title:'show',
 			dataIndex:'show',
@@ -186,15 +238,15 @@ class Warland extends Component {
         return(
             <div>
                 <ContentHeader header='无主之地' />
-				<Tab columns={colunm} />
+				<Tab columns={colunm} dataSource={this.state.tab1} />
 				<ContentHeader header='服务器' />
-				<Tab columns={colunm1} />
+				<Tab columns={colunm1} dataSource={this.state.tab2} />
 				<Multiselect name='svr:' val='请选择' data={this.server()} onChange={(e) => this.value('svrs',e) } />
-				<DateTime name='活动开始时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('show',date,dateString)} />                    
+				<DateTime name='活动预告时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('show',date,dateString)} />                    
 				<DateTime name='活动开始时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('beg',date,dateString)} />
 				<DateTime name='活动结束时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('end',date,dateString)} />
 				<DateTime name='关闭活动时间' defaulttime={this.datatime()} onChange={(date,dateString) => this.datetime('close',date,dateString)} />
-				<But name='创建'  />
+				<But name='创建'  onClick={this.create} />
             </div>
         )
     }
