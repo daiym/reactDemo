@@ -32,6 +32,7 @@ import Worldboss from './Worldboss';//Worldboss
 import Warland from './Warland';//Warland
 import Warlandrole from './Warlandrole';//Warlandrole
 import Sciencerole from './Sciencerole';//Sciencerole
+import Appearances from './Appearances';//Appearances
 import { BrowserRouter,Route,Link} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Ajax from './Ajax';
@@ -270,6 +271,12 @@ class Home extends Component {
                 <span>科技大师查询</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="33">
+              <Link to="/appearances">
+                <Icon type="desktop" />
+                <span>主基地外观查询</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -310,6 +317,7 @@ class Home extends Component {
               <Route path="/warland" component={Warland}/>
               <Route path="/warlandrole" component={Warlandrole}/>
               <Route path="/sciencerole" component={Sciencerole}/>
+              <Route path="/appearances" component={Appearances}/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

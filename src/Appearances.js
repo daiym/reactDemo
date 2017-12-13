@@ -9,7 +9,7 @@ import gamedata from './gamedata';
 import { Select } from 'antd';
 const Option = Select.Option;
 
-class Sciencerole extends Component {
+class Appearances extends Component {
     constructor(props){
         super(props);
         this.state = ({
@@ -20,7 +20,7 @@ class Sciencerole extends Component {
     };
 
     selects = () => {
-        var science = gamedata.sciencemaster;
+        var science = gamedata.baseappearances;
         var objdata = Object.keys(science);
         var a = [];
         objdata.map((index) => {
@@ -40,7 +40,7 @@ class Sciencerole extends Component {
 
     postajax = () => {
         var _this = this;
-        Ajax({id:_this.state.server},"servers.science.master").then((r) => {
+        Ajax({id:_this.state.server},"servers.base.appearances").then((r) => {
             var data = JSON.parse(r.data.result);
             console.log(data);
             var objdata = [];
@@ -124,7 +124,7 @@ class Sciencerole extends Component {
         }];
         return(
             <div>
-                <ContentHeader header='科技大师查询' />
+                <ContentHeader header='主基地外观查询' />
 				<Selects name='服务器:' val='请选择' data={this.selects()} onChange={this.svr} />
                 <Button name='查询' onClick={this.postajax} />
                 <Tab columns={column1} dataSource={this.state.tab1} />
@@ -134,4 +134,4 @@ class Sciencerole extends Component {
     }
 }
 
-export default Sciencerole;
+export default Appearances;

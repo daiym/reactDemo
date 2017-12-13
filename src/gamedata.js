@@ -74,6 +74,13 @@ var gamedatas = gamedatas || {
 		900019 : { level : "39", name : {  ar : "درع الطاقة - معلّم ", cn : "溃能装甲大师", de : "Energierüstungsmeister", en : "Energy Armor Master", ja : "エネルギーの鎧の達人", ko : "접이식 장갑 마스터", ru : "Мастер энергетической брони", th : "ปริญญาโทเกราะพลังงาน", tw : "潰能裝甲大師", vi : "Năng lượng Armor Master"} },
 		900018 : { level : "38", name : {  ar : "هيكل صلب خاص - معلّم ", cn : "防崩落结构大师", de : "Anti-Kollaps-Struktur-Master", en : "Anti-collapse Structure Master", ja : "反崩壊構造マスター", ko : "안티 동굴 구조 마스터", ru : "Мастер по борьбе с коллапсом", th : "โครงสร้างโครงสร้างป้องกันการยุบ", tw : "防崩落結構大師", vi : "Chống sụp đổ cơ cấu Thạc sĩ"} },
    },
+   baseappearances : {
+		810004 : { name : {  ar : "قريباً ", cn : "敬请期待", de : "Bitte bleiben Sie dran.", en : "Please stay tuned.", ja : "続く", ko : "기대해주세요", ru : "Ожидайте", th : "โปรดติดตาม", tw : "敬請期待", vi : "Hãy theo dõi."} },
+		810000 : { name : {  ar : "حرس الحماية ", cn : "守护-保卫者", de : "Schutz-Schutz", en : "Guard-Protector", ja : "守護-防衛者", ko : "수호-정찰 드론", ru : "Защитник", th : "การ์เดียน - ป้อมปราการ", tw : "守護-保衛者", vi : "Bảo vệ-bảo vệ"} },
+		810001 : { name : {  ar : "حماية منطاد كيروف ", cn : "守护-基洛夫飞艇", de : "Schutz-Kirov Luftschiff", en : "Protection-Kirov Airship", ja : "守護-キーロフ飛行船", ko : "수호- 키로프 비행선", ru : "Защита - дирижабль Киров", th : "เรือเหาะคุ้มครอง Kirov", tw : "守護-基洛夫飛艇", vi : "Bảo vệ-Kirov Airship"} },
+		810002 : { name : {  ar : "حماية مروحية الأباتشي ", cn : "守护-阿帕奇", de : "Basisschutz - Apache", en : "Base Protection - Apache", ja : "守護-パチスロ", ko : "수호-아파치", ru : "Защита - Апач", th : "การป้องกันฐาน - อาปาเช่", tw : "守護-阿帕奇", vi : "Bảo vệ cơ sở - Apache"} },
+		810003 : { name : {  ar : "طائرة الطيف ", cn : "AC-130U\"幽灵\"", de : "AC-130U Spuk", en : "AC-130U Spooky", ja : "AC-130U「幽霊」", ko : "AC-130U", ru : "AC-130U Spooky", th : "AC-130U Spooky", tw : "AC-130U\"幽靈\"", vi : "AC-130U Spooky"} },
+	},
 	tempactivation : [
 			{ dialog : "0",dataid : "1418",name : "建筑10级活动",type : "建筑等级", },
 			{ dialog : "0",dataid : "1419",name : "建筑13级活动",type : "建筑等级", },
