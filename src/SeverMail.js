@@ -3,6 +3,7 @@ import ContentHeader from './ContentHeader';
 import { Tabs } from 'antd';
 import Tab from './Tab';
 import Selects from './Select';
+import Multiselect from './Multiselect';
 import Inputs from './Input';
 import Inputvalue from './Inputvalue';
 import But from './Button';
@@ -33,7 +34,16 @@ class SeversMail extends Component {
 			item:'',
 			count:'',
 			objdataitem:{},
-			tabitem:[]
+			tabitem:[],
+			level:'',
+			levelitem:'',
+			levelcount:'',
+			objdatalevelitem:{},
+			tablevelitem:[],
+			url:'',
+			urlname:'',
+			objdataurl:[],
+			taburl:[]
 		})
 	}
 
@@ -77,6 +87,15 @@ class SeversMail extends Component {
 				tab1:objdata
 			})
 		})
+	};
+
+	//服务器
+	server = () => {
+		var s = JSON.parse(localStorage['server@'+ localStorage.name]);
+		return s.map((item,index) => {
+					var uniqueid = JSON.stringify(item.uniqueid)
+					return <Option key={index} value={uniqueid}>{uniqueid + '服务器'}</Option>;
+				})
 	};
 
 	//value
@@ -168,7 +187,7 @@ class SeversMail extends Component {
 			s.title1 = data[lang].title1;
 			s.title2 = data[lang].title2;
 			s.content = data[lang].content;
-			s.cz = <Button type="primary" >Delete</Button>
+			s.cz = <Button type="primary" onClick={() => this.deletelangs(lang)} >Delete</Button>
 			a.push(s);
 		};
 		this.setState ({
@@ -177,17 +196,25 @@ class SeversMail extends Component {
 		})
 	};
 
+	//delete lang
+	deletelangs = (name) => {
+		var data = this.state.objdatalang;
+		delete data[name];
+		console.log(data)
+		this.langtable(data);
+	};
+
 	//拼接item
 	dataitem = () => {
 		var data = this.state.objdataitem;
 		var items = this.state.item;
 		data[items] = parseInt(this.state.count);
-		console.log(data)
 		this.itemtable(data);
 	};
 
 	//item表格
 	itemtable = (data) => {
+		console.log(data)
 		var num = 0;
 		var a = [];
 		for(var i in data){
@@ -195,7 +222,7 @@ class SeversMail extends Component {
 			s.key = ++num;
 			s.name = i;
 			s.count = data[i];
-			s.cz = <div><Button type="primary" >-</Button><Button type="primary" >+</Button><Button type="primary" >Delete</Button></div>
+			s.cz = <div><Button type="primary" onClick={() => this.jianitems(i)} >-</Button><Button type="primary" onClick={() => this.jiaitems(i)} >+</Button><Button type="primary" onClick={() => this.deleteitems(i)} >Delete</Button></div>;
 			a.push(s);
 		};
 		this.setState ({
@@ -203,6 +230,144 @@ class SeversMail extends Component {
 			tabitem:a
 		})
 	};
+
+	//delete item
+	deleteitems = (item) => {
+		var data = this.state.objdataitem;
+		delete data[item];
+		this.itemtable(data);
+	};
+
+	//jia item
+	jiaitems = (item) => {
+		var data = this.state.objdataitem;
+		data[item]++;
+		this.itemtable(data);
+	};
+
+	//jia item
+	jianitems = (item) => {
+		var data = this.state.objdataitem;
+		data[item]--;
+		if(data[item] == 0){
+			delete data[item];
+		};
+		this.itemtable(data);
+	};
+
+	//拼接levelitem
+	datalevelitem = () => {		
+		var data = this.state.objdatalevelitem;
+		var level = this.state.level;
+		var levelitem = this.state.levelitem;
+		if(!data[level]){
+			data[level] = {};
+		}
+		if(!data[level][levelitem]){
+			data[level][levelitem] = {};
+			data[level][levelitem] = parseInt(this.state.levelcount);
+		}else{
+			data[level][levelitem] = parseInt(this.state.levelcount);
+		}
+		this.levelitemtable(data);
+	};
+
+	//levelitem表格
+	levelitemtable = (data) => {
+		console.log(data)
+		var num = 0;
+		var a = [];
+		for(var i in data){
+			var datas = data[i];
+			let b = i;
+			for(var index in datas){
+				let c = index;
+				var obj = {};
+				obj.key = ++num;
+				obj.level = i;
+				obj.name = index;
+				obj.count = datas[index];
+				obj.cz = <div><Button type="primary" onClick={() => this.jianitems(b,c)} >-</Button>
+						<Button type="primary" onClick={() => this.jiaitems(b,c)} >+</Button>
+						<Button type="primary" onClick={() => this.deleteitems(b,c)} >Delete</Button></div>;
+				a.push(obj);
+			}
+		};
+		this.setState ({
+			objdatalevelitem:data,
+			tablevelitem:a
+		})
+	};
+
+	//delete levelitem
+	deleteitems = (level,item) => {
+		var data = this.state.objdatalevelitem;
+		delete data[level][item];
+		if(Object.keys(data[level]).length == 0){
+			delete data[level]
+		};	
+		this.levelitemtable(data);
+	};
+
+	//jia levelitem
+	jiaitems = (level,item) => {
+		var data = this.state.objdatalevelitem;
+		data[level][item]++;
+		this.levelitemtable(data);
+	};
+
+	//jian levelitem
+	jianitems = (level,item) => {
+		var data = this.state.objdatalevelitem;
+		data[level][item]--;
+		if(data[level][item] == 0){
+			delete data[level][item]
+			if(Object.keys(data[level]).length == 0){
+				delete data[level]
+			}
+		};
+		this.levelitemtable(data);
+	};
+
+	//url拼接
+	dataurl = () => {
+		var data = this.state.objdataurl;
+		var urlname = this.state.urlname;
+		var url = this.state.url;
+		var obj = {};
+		obj.name = urlname;
+		obj.url = url;
+		data.push(obj);
+		console.log(data)
+		this.urltable(data);
+	};
+
+	//url表格
+	urltable = (data) => {
+		console.log(data)
+		var num = 0;
+		var a = [];
+		data.map((item,index) => {
+			var obj = {};
+			let c = ++num
+			obj.key = c;
+			obj.name = item.name;
+			obj.url = item.url;
+			obj.cz = <div><Button type="primary" onClick={() => this.deleteurl(c)}>Delete</Button></div>;
+			a.push(obj);
+		});
+		this.setState ({
+			objdataurl:data,
+			taburl:a
+		})
+	};
+
+	//delete url
+	deleteurl = (index) => {
+		var data = this.state.objdataurl;
+		var datas = data.splice(index);
+		this.urltable(datas);
+	}
 	
 	render() {
 		const columns = [{
@@ -280,6 +445,36 @@ class SeversMail extends Component {
 			dataIndex:'cz',
 			key:'cz',
 		}];
+		const column3 = [{
+			title:'level',
+			dataIndex:'level',
+			key:'level',
+		}, {
+			title:'name',
+			dataIndex:'name',
+			key:'name',
+		}, {
+			title:'count',
+			dataIndex:'count',
+			key:'count',
+		}, {
+			title:'操作',
+			dataIndex:'cz',
+			key:'cz',
+		}];
+		const column4 = [{
+			title:'name',
+			dataIndex:'name',
+			key:'name',
+		}, {
+			title:'url',
+			dataIndex:'url',
+			key:'url',
+		}, {
+			title:'操作',
+			dataIndex:'cz',
+			key:'cz',
+		}];
 		return (
 			<div>
 				<ContentHeader header='邮件' />
@@ -301,23 +496,23 @@ class SeversMail extends Component {
 				    	<But name='添加' onClick={this.dataitem} />
 				    	<Tab columns={column2} dataSource={this.state.tabitem} />
 				    	<hr />
-				    	<Inputs name='level:' val='level' />
-				    	<Selects name='item:' val='请选择' data={this.itemdata()} />
-				    	<Inputs name='count:' val='count' />
-				    	<But name='添加' />
-				    	<Tab columns={columns} />
+						<Inputvalue name='level:' val='level' value={this.state.level} onChange={(e) => this.value('level',e)} />
+				    	<Selects name='item:' val='请选择' data={this.itemdata()} onChange={(value) => this.typesvr('levelitem',value)} />
+						<Inputvalue name='levelcount:' val='levelcount' value={this.state.levelcount} onChange={(e) => this.value('levelcount',e)} />
+				    	<But name='添加' onClick={this.datalevelitem} />
+				    	<Tab columns={column3} dataSource={this.state.tablevelitem} />
 				    	<hr />
-				    	<Inputs name='URL Name:' val='URLName' />
-				    	<Inputs name='URL:' val='URL' />
-				    	<But name='添加URL' />
-				    	<Tab columns={columns} />
+				    	<Inputs name='URL Name:' val='URLName' onChange={(e) => this.value('urlname',e)} />
+				    	<Inputs name='URL:' val='URL' onChange={(e) => this.value('url',e)} />
+				    	<But name='添加URL' onClick={this.dataurl} />
+				    	<Tab columns={column4} dataSource={this.state.taburl} />
 				    	<hr />
 				    	<Checkbox val='标记是否为更新邮件' />
 				    </TabPane>
 				    <TabPane tab="设置Severs" key="3">
 				    	<Inputs name='平台id:' val='' />
 				    	<Checkbox val='all servers' />
-				    	<Selects name='服务器:' val='请选择' data={this.props.data} />
+				    	<Multiselect name='服务器:' val='请选择' data={this.server()} />
 				    	<Tab columns={columns} />
 				    	<Time name='生效时间' />
 				    	<Selects name='生效操作:' val='请选择' data={this.props.data} />
