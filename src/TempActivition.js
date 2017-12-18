@@ -9,7 +9,7 @@ import Formats from './Formats';
 import Format from './Format';
 import Ajax from './Ajax';//Ajax
 import gamedata from './gamedata';
-import { Select,message,Button } from 'antd';
+import { Select,Button } from 'antd';
 const Option = Select.Option;
 
 class TempActivition extends Component {
@@ -95,7 +95,7 @@ class TempActivition extends Component {
 		var html = [];
 		var data = gamedata.tempactivation;
 		for(var i = 0; i < data.length; i++){
-			if(type == data[i].type){
+			if(type === data[i].type){
 				var name = data[i].name;
 				const s = <Option key={i} value={data[i].dataid}>{name}</Option>;
 				html.push(s);
@@ -111,7 +111,7 @@ class TempActivition extends Component {
 		this.setState ({
 			[name]:value
 		});
-		if(name == 'type'){
+		if(name === 'type'){
 			this.typename(value)
 		};
 	}

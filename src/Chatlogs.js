@@ -103,12 +103,12 @@ class Chatlogs extends Component {
 
 	//世界聊天ajax
 	logshout = () => {
-		if(this.state.worldchat == ''){
+		if(this.state.worldchat === ''){
 			return message.info('服务器不能为空！！！');
 		};
 		var _this = this;
 		Ajax({uniqueid:this.state.worldchat,begintime:this.state.worldchatbegtime,endtime:this.state.worldchatendtime},"servers.log.shout").then(function(r){
-			if(r.data.errorcode == 0){
+			if(r.data.errorcode === 0){
 				var data = JSON.parse(r.data.result);
 				console.log(data);
 				if(data.length !== 0){
@@ -120,14 +120,14 @@ class Chatlogs extends Component {
 
 	//联盟聊天ajax
 	logsgroup = () => {
-		if(this.state.leaguechat == ''){
+		if(this.state.leaguechat === ''){
 			return message.info('服务器不能为空！！！');
-		}else if(this.state.leaguechatinput == ''){
+		}else if(this.state.leaguechatinput === ''){
 			return message.info('联盟id不能为空！！！');
 		};
 		var _this = this;
 		Ajax({uniqueid:this.state.leaguechat,leagueid:this.state.leaguechatinput,begintime:this.state.leaguechatbegtime,endtime:this.state.leaguechatendtime},"servers.log.group").then(function(r){
-			if(r.data.errorcode == 0){
+			if(r.data.errorcode === 0){
 				var data = JSON.parse(r.data.result);
 				console.log(data);
 				if(data.length !== 0){
@@ -139,17 +139,17 @@ class Chatlogs extends Component {
 
 	//私聊记录查询
 	logsp2pdsts = () => {
-		if(this.state.privatechat == ''){
+		if(this.state.privatechat === ''){
 			return message.info('服务器不能为空！！！');
-		}else if(this.state.privatechatinput == ''){
+		}else if(this.state.privatechatinput === ''){
 			return message.info('sessionid不能为空！！！');
 		};
 		var _this = this;
 		Ajax({uniqueid:this.state.privatechat,sessionid:this.state.privatechatinput,begintime:this.state.privatechatbegtime,endtime:this.state.privatechatendtime},"servers.log.p2pdsts").then(function(r){
-			if(r.data.errorcode == 0){
+			if(r.data.errorcode === 0){
 				var data = JSON.parse(r.data.result);
 				console.log(data);
-				if(data.length != 0){
+				if(data.length !== 0){
 					var ss = [];
 					for(var i = 0; i < data.length; i++){
 						var fullname = data[i].fullname;
@@ -178,16 +178,16 @@ class Chatlogs extends Component {
 
 	//点对点聊天
 	logsp2p = () => {
-		if(this.state.p2pchat == ''){
+		if(this.state.p2pchat === ''){
 			return message.info('服务器不能为空！！！');
-		}else if(this.state.p2pchatinput1 == ''){
+		}else if(this.state.p2pchatinput1 === ''){
 			return message.info('sessionid1不能为空！！！');
-		}else if(this.state.p2pchatinput2 == ''){
+		}else if(this.state.p2pchatinput2 === ''){
 			return message.info('sessionid2不能为空！！！');
 		};
 		var _this = this;
 		Ajax({uniqueid:this.state.p2pchat,sessionid1:this.state.p2pchatinput1,sessionid12:this.state.p2pchatinput2,begintime:this.state.p2pchatbegtime,endtime:this.state.p2pchatendtime},"servers.log.p2p").then(function(r){
-			if(r.data.errorcode == 0){
+			if(r.data.errorcode === 0){
 				var data = JSON.parse(r.data.result);
 				console.log(data);
 				if(data.length !== 0){
@@ -202,33 +202,33 @@ class Chatlogs extends Component {
 		var logs = [];
 		for(var i = 0; i < data.length; i++){
 			var logObj = JSON.parse(data[i]);
-			if(logObj.type == "shout"){
-	            var msg = logObj[logObj.type].league.id != 0 ?
+			if(logObj.type === "shout"){
+	            var msg = logObj[logObj.type].league.id !== 0 ?
 	                "(" + logObj[logObj.type].league.shortname +  ")" + logObj[logObj.type].name + " (" + logObj[logObj.type].id +" )" + " : " + logObj[logObj.type].msg :
 	                logObj[logObj.type].name + " (" + logObj[logObj.type].id +" )" + " : " + logObj[logObj.type].msg;
-	        } else if(logObj.type == "group"){
+	        } else if(logObj.type === "group"){
 	            var msg = logObj["group"].name + " (" + logObj["group"].id +" )" + " : " + logObj["group"].msg;
-	        } else if(logObj.type == "p2p") {
-	            var msg = logObj[logObj.type].fromleague.id != 0 ?
+	        } else if(logObj.type === "p2p") {
+	            var msg = logObj[logObj.type].fromleague.id !== 0 ?
 	                "(" + logObj[logObj.type].fromleague.shortname + ")" + logObj[logObj.type].from + " : " + logObj[logObj.type].msg :
 	                logObj[logObj.type].from + " : " + logObj[logObj.type].msg;
 	        };
 	        msg = msg + " " + Format(logObj.time) + "\r\n";
         	logs.push(msg);
 		}
-		if(value == 'worldchat'){
+		if(value === 'worldchat'){
 			this.setState ({
 				worldchattext:logs
 			});
-		}else if(value == 'leaguechat'){
+		}else if(value === 'leaguechat'){
 			this.setState ({
 				leaguechattext:logs
 			});
-		}else if(value == 'privatechat'){
+		}else if(value === 'privatechat'){
 			this.setState ({
 				privatechattext:logs
 			});
-		}else if(value == 'p2pchat'){
+		}else if(value === 'p2pchat'){
 			this.setState ({
 				p2pchattext:logs
 			});

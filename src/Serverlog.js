@@ -120,9 +120,9 @@ class Serverlog extends Component {
 
 	//Ajax
 	postajax = () => {
-		if(this.state.server == ''){
+		if(this.state.server === ''){
 			return message.info('服务器不能为空！');
-		}else if(this.state.id == ''){
+		}else if(this.state.id === ''){
 			return message.info('sessionid不能为空！');
 		// }else if(this.state.begintime !== ''){
 		// 	return message.info('开始时间不能为空！');
@@ -307,13 +307,13 @@ class Serverlog extends Component {
 	                } catch (e) {
 	                    baglog = null;
 	                }
-	                if(type.done==undefined){
+	                if(type.done === undefined){
 	                    type.done="";
 	                }
-	                if(type.goldqueue==undefined){
+	                if(type.goldqueue === undefined){
 	                    type.goldqueue="";
 	                }
-	                if(a == 'rolelogout'){
+	                if(a === 'rolelogout'){
 	                	b.key = index;
 	                	b.number = index;
 	                	b.type = a;
@@ -322,7 +322,7 @@ class Serverlog extends Component {
 	                	b.namelevel = type.level;
 	                	b.time = time;
 	                	c.push(b);
-	                }else if(a == 'useitem'){
+	                }else if(a === 'useitem'){
 	                	b.key = index;
 	                	b.number = index;
 	                	b.type = a;
@@ -331,7 +331,7 @@ class Serverlog extends Component {
 	                	b.Backpack = type.count;
 	                	b.time = time;
 	                	c.push(b);
-	                }else if(a == 'vipexp'){
+	                }else if(a === 'vipexp'){
 	                	b.key = index;
 	                	b.number = index;
 	                	b.type = a;
@@ -341,7 +341,7 @@ class Serverlog extends Component {
 	                	b.score = type.by;
 	                	b.time = time;
 	                	c.push(b);
-	                }else if(a == 'dailytask'){
+	                }else if(a === 'dailytask'){
 	                	b.key = index;
 	                	b.number = index;
 	                	b.type = a;

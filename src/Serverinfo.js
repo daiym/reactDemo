@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ContentHeader from './ContentHeader';
 import Selects from './Select';
 import Tab from './Tab';
-import Formats from './Formats';
-import Format from './Format';
+// import Formats from './Formats';
+// import Format from './Format';
 import Ajax from './Ajax';//Ajax
 import { Select,message,Tabs } from 'antd';
 const Option = Select.Option;
@@ -53,7 +53,7 @@ class Serverlog extends Component {
 			[name]:value
 		});
 		const _this = this;
-		if(name == 'activition'){
+		if(name === 'activition'){
 			Ajax({},"servers.activition.infos").then(function(r){
 				console.log(r)
 				var data = JSON.parse(r.data.result);
@@ -65,17 +65,17 @@ class Serverlog extends Component {
 						var s = i;
 						s={};
 						s.key = i;
-						if(value == svr.unquieid){
+						if(value === svr.unquieid){
 							s.server = svr.unquieid;
 							var info = svr.infos;
 							s.blackknight = <div>starttime: {info.blackknight.starttime}<br/>
 											endtime: {info.blackknight.endtime}<br/>
 											status: {info.blackknight.status}</div>;
-							if(info.server.status != 0){
+							if(info.server.status !== 0){
 								var dayhtml = '';
 								for(var x in info.server.days){
 									var day = info.server.days[x];
-									if(x!=1 && x!=7){
+									if(x !== 1 && x !== 7){
 										dayhtml+=<div>星期{(x-1)}+day.eventtype</div>;
 									}
 								}
@@ -86,7 +86,7 @@ class Serverlog extends Component {
 							}else{
 								s.servers = '';
 							};
-							if(info.buff.status != 0){
+							if(info.buff.status !== 0){
 								s.buff = <div>starttime: {info.buff.starttime}<br/>
 										endtime: {info.buff.endtime}<br/>
 										status: {info.buff.status}</div>;
@@ -101,10 +101,10 @@ class Serverlog extends Component {
 					});
 				}
 			})
-		}else if(name == 'top10'){
+		}else if(name === 'top10'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r)
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var datatop10 = [];
@@ -159,10 +159,10 @@ class Serverlog extends Component {
 				}
 				
 			})
-		}else if(name == 'personal'){
+		}else if(name === 'personal'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r);
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var datapersonal = [];
@@ -194,10 +194,10 @@ class Serverlog extends Component {
 					return message.info('该服务器不开放！！！');
 				}
 			})
-		}else if(name == 'personallevel'){
+		}else if(name === 'personallevel'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r);
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var datapersonallevel = [];
@@ -229,10 +229,10 @@ class Serverlog extends Component {
 					return message.info('该服务器不开放！！！');
 				}
 			})
-		}else if(name == 'baselevel'){
+		}else if(name === 'baselevel'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r);
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var databaselevel = [];
@@ -266,10 +266,10 @@ class Serverlog extends Component {
 					return message.info('该服务器不开放！！！');
 				}
 			})
-		}else if(name == 'leaguepower'){
+		}else if(name === 'leaguepower'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r);
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var dataleaguepower = [];
@@ -301,10 +301,10 @@ class Serverlog extends Component {
 					return message.info('该服务器不开放！！！');
 				}
 			})
-		}else if(name == 'equiptotal'){
+		}else if(name === 'equiptotal'){
 			Ajax({uniqueid:value},"servers.ladderinfo.infos").then(function(r){
 				console.log(r);
-				if(r.data.errorcode == 0){
+				if(r.data.errorcode === 0){
 					var data = JSON.parse(r.data.result);
 					console.log("servers.ladderinfo.infos: ",data);
 					var dataequiptotal = [];

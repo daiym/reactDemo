@@ -11,7 +11,7 @@ import Checkbox from './Checkbox';
 import Time from './Time';
 import gamedata from './gamedata';
 import Ajax from './Ajax';//Ajax
-import Formats from './Formats';
+// import Formats from './Formats';
 import Format from './Format';
 import { Select,Button,Input } from 'antd';
 const Option = Select.Option;
@@ -43,7 +43,13 @@ class SeversMail extends Component {
 			url:'',
 			urlname:'',
 			objdataurl:[],
-			taburl:[]
+			taburl:[],
+			allowClear:false,
+			disabled:false,
+			plat:'',
+			svr:'',
+			sess:'',
+			tab2:[]
 		})
 	}
 
@@ -66,8 +72,8 @@ class SeversMail extends Component {
 				for(var index in content.times){
 					times = 'type'+index
 				}
-				for(var index in mail.svrs){
-					svrs = index+','
+				for(var indexs in mail.svrs){
+					svrs = indexs+','
 				}
 				var obj = {};
 				obj.key = i;
@@ -107,10 +113,11 @@ class SeversMail extends Component {
 
 	//下拉
 	typesvr = (name,value) => {
+		console.log(value)
 		this.setState ({
 			[name]:value
 		});
-		if(name == 'lang'){
+		if(name === 'lang'){
 			var data = this.state.objdatalang;
 			if(!data[value]){
 				this.setState ({
@@ -125,7 +132,7 @@ class SeversMail extends Component {
 					content:data[value].content
 				})
 			}
-		}else if(name == 'item'){
+		}else if(name === 'item'){
 			var data = this.state.objdataitem;
 			if(!data[value]){
 				this.setState ({
@@ -136,7 +143,25 @@ class SeversMail extends Component {
 					count:data[value]
 				})
 			}
-		};
+		}else if(name === 'svr'){
+			if(value.length !== 0){
+				for(var i = 0; i < value.length; i++){
+					var dataobj = this.state.tab2;
+					var obj = {};
+					obj.key = value[i];
+					obj.server = value[i];
+					obj.allroles = <div><Checkbox val='' /></div>;
+					obj.roles = this.state.sess;
+					obj.cz = <div><Inputs name='sessionid:' val='' /><Button type="primary">add</Button><Button type="primary">delete</Button></div>;
+					dataobj.push(obj);
+					this.setState ({
+						tab2:dataobj
+					})
+				}
+				
+			}
+			
+		}
 	};
 
 	//语言
@@ -249,7 +274,7 @@ class SeversMail extends Component {
 	jianitems = (item) => {
 		var data = this.state.objdataitem;
 		data[item]--;
-		if(data[item] == 0){
+		if(data[item] === 0){
 			delete data[item];
 		};
 		this.itemtable(data);
@@ -303,7 +328,7 @@ class SeversMail extends Component {
 	deleteitems = (level,item) => {
 		var data = this.state.objdatalevelitem;
 		delete data[level][item];
-		if(Object.keys(data[level]).length == 0){
+		if(Object.keys(data[level]).length === 0){
 			delete data[level]
 		};	
 		this.levelitemtable(data);
@@ -320,9 +345,9 @@ class SeversMail extends Component {
 	jianitems = (level,item) => {
 		var data = this.state.objdatalevelitem;
 		data[level][item]--;
-		if(data[level][item] == 0){
+		if(data[level][item] === 0){
 			delete data[level][item]
-			if(Object.keys(data[level]).length == 0){
+			if(Object.keys(data[level]).length === 0){
 				delete data[level]
 			}
 		};
@@ -367,6 +392,21 @@ class SeversMail extends Component {
 		var data = this.state.objdataurl;
 		var datas = data.splice(index);
 		this.urltable(datas);
+	};
+
+	onChange= (e) => {
+		console.log(`checked = ${e.target.checked}`);
+		if(e.target.checked){
+			this.setState ({
+				allowClear:true,
+				disabled:true
+			})
+		}else{
+			this.setState ({
+				allowClear:false,
+				disabled:false
+			})
+		}
 	}
 	
 	render() {
@@ -475,6 +515,23 @@ class SeversMail extends Component {
 			dataIndex:'cz',
 			key:'cz',
 		}];
+		const column5 = [{
+			title:'server',
+			dataIndex:'server',
+			key:'server',
+		}, {
+			title:'allroles',
+			dataIndex:'allroles',
+			key:'allroles',
+		}, {
+			title:'roles',
+			dataIndex:'roles',
+			key:'roles',
+		}, {
+			title:'操作',
+			dataIndex:'cz',
+			key:'cz',
+		}];
 		return (
 			<div>
 				<ContentHeader header='邮件' />
@@ -510,10 +567,10 @@ class SeversMail extends Component {
 				    	<Checkbox val='标记是否为更新邮件' />
 				    </TabPane>
 				    <TabPane tab="设置Severs" key="3">
-				    	<Inputs name='平台id:' val='' />
-				    	<Checkbox val='all servers' />
-				    	<Multiselect name='服务器:' val='请选择' data={this.server()} />
-				    	<Tab columns={columns} />
+				    	<Inputs name='平台id:' val='' onChange={(e) => this.value('plat',e)} />
+				    	<Checkbox val='all servers' onChange={this.onChange} />
+				    	<Multiselect name='服务器:' val='请选择' data={this.server()} allowClear={this.state.allowClear} disabled={this.state.disabled} onChange={(value) => this.typesvr('svr',value)} />
+				    	<Tab columns={column5} dataSource={this.state.tab2} />
 				    	<Time name='生效时间' />
 				    	<Selects name='生效操作:' val='请选择' data={this.props.data} />
 				    	<But name='发送' />

@@ -52,10 +52,10 @@ class Specifiesreward extends Component {
 	buildrewardAjax =() => {
 		var svr = this.state.server;
 		var plat = this.state.plat;
-		if(svr.length == 0){
+		if(svr.length === 0){
 			message.info('服务器不能为空!')
 		};
-		if(plat.length == 0){
+		if(plat.length === 0){
 			message.info('plat不能为空!')
 		};
 		if(svr.length !== 0 && plat.length !== 0){
@@ -70,10 +70,10 @@ class Specifiesreward extends Component {
 	powerrewardAjax = () => {
 		var svr = this.state.server;
 		var plat = this.state.plat;
-		if(svr.length == 0){
+		if(svr.length === 0){
 			message.info('服务器不能为空!')
 		};
-		if(plat.length == 0){
+		if(plat.length === 0){
 			message.info('plat不能为空!')
 		};
 		if(svr.length !== 0 && plat.length !== 0){
@@ -89,19 +89,19 @@ class Specifiesreward extends Component {
 		var svr = this.state.server;
 		var plat = this.state.plat;
 		var league = this.state.referred;
-		if(svr.length == 0){
+		if(svr.length === 0){
 			return message.info('服务器不能为空!')
 		};
-		if(svr.length > 1 && svr.length != 0){
+		if(svr.length > 1 && svr.length !== 0){
 			return message.info('只能选择一个服务器!')
 		};
-		if(plat.length == 0){
+		if(plat.length === 0){
 			return message.info('plat不能为空!')
 		};
-		if(league == ""){
+		if(league === ""){
 			return message.info('league不能为空!')
 		};
-		const _this = this;
+		// const _this = this;
 		Ajax({unqiueid:svr , plats:plat , leaguename:league},"servers.temp.activition.league10").then(function(r){
 			console.log(r);
 		})
@@ -111,16 +111,16 @@ class Specifiesreward extends Component {
 		var svr = this.state.server;
 		var plat = this.state.plat;
 		var league = this.state.referred;
-		if(svr.length == 0){
+		if(svr.length === 0){
 			return message.info('服务器不能为空!')
 		};
-		if(plat.length == 0){
+		if(plat.length === 0){
 			return message.info('plat不能为空!')
 		};
-		if(league == ""){
+		if(league === ""){
 			return message.info('league不能为空!')
 		};
-		const _this = this;
+		// const _this = this;
 		Ajax({unqiueid:svr , plats:plat , leaguename:league},"servers.temp.activition.league20").then(function(r){
 			console.log(r);
 		})
@@ -141,9 +141,12 @@ class Specifiesreward extends Component {
 		if(e.target.checked){
 			s.push(val);
 		}else{
-			this.state.plat = s.filter(function(el){
-								return el !== val;
-							});
+			var data = s.filter(function(el){
+							return el !== val;
+						});
+			this.setState ({
+				plat:data
+			})
 		}
 	}
 

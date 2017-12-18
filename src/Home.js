@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import antd from 'antd';
+// import antd from 'antd';
 import Homepage from './Homepage';//主页
 import Userinfo from './Userinfo';//用户信息
 import League from './League';//联盟信息
@@ -33,11 +33,11 @@ import Warland from './Warland';//Warland
 import Warlandrole from './Warlandrole';//Warlandrole
 import Sciencerole from './Sciencerole';//Sciencerole
 import Appearances from './Appearances';//Appearances
-import { BrowserRouter,Route,Link} from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Route,Link} from 'react-router-dom';
+import { Layout, Menu, Icon } from 'antd';
 import Ajax from './Ajax';
 const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
+// const SubMenu = Menu.SubMenu;
 
 class Home extends Component {
   constructor(props){
@@ -54,9 +54,9 @@ class Home extends Component {
     var _this = this;
     Ajax({}, 'servers.infos')
     .then(function(res){
-      if(res == '/login'){
+      if(res === '/login'){
         return null;
-      }else if(res.data.errorcode == 0){
+      }else if(res.data.errorcode === 0){
         var r = JSON.parse(res.data.result);
         console.log('servers.infos: ',r)
         if(r){

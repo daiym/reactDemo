@@ -55,7 +55,7 @@ class Announce extends Component {
 		var maillang = gamedata.lang;
 		var list = Object.keys(maillang);
 		var s = list.map(index => maillang[index]);
-		var a = 0;
+		// var a = 0;
 		return s.map((item,index) => {
 					return <Option key={index} value={item.value}>{ item.info + (item.value)}</Option>;
 				})
@@ -86,11 +86,15 @@ class Announce extends Component {
 		var s = this.state.table;
 		if(s.length > 0){
 			for(var i = 0; i < s.length; i++){
-				if(value == s[i].lang){
-					this.state.textarea = s[i].content;
+				if(value === s[i].lang){
+					this.setState ({
+						textarea:s[i].content
+					})
 					break;
 				}else{
-					this.state.textarea = '';
+					this.setState ({
+						textarea:''
+					})
 				}
 			}
 		}
@@ -117,8 +121,11 @@ class Announce extends Component {
 		i = {};
 		i.key = a.length;
 		for(var x = 0; x < a.length; x++){
-			if(a[x].lang == this.state.lang){
-				this.state.table = a.splice(x,1);
+			if(a[x].lang === this.state.lang){
+				this.setState ({
+					table:a.splice(x,1)
+				})
+				// this.state. = ;
 				i.key = x + 0.1
 			}	
 		}

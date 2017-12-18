@@ -33,7 +33,7 @@ class Mail extends Component {
 		var s = JSON.parse(localStorage['server@'+ localStorage.name]);
 		var online = '';
 		for (var i = 0; i < s.length; i++) {
-			if (s[i].uniqueid == value) {
+			if (s[i].uniqueid === value) {
 				online = s[i].online
 			}
 		}
@@ -93,7 +93,7 @@ class Mail extends Component {
 	mailtypeChange = (value) => {
 		var x = this.state.obj;
 		for(var i = 0; i < x.length; i++){
-			if(value == x[i].dataid){
+			if(value === x[i].dataid){
 				this.setState ({
 					mailType:value,
 					mailname:x[i].mailname
@@ -104,7 +104,7 @@ class Mail extends Component {
 		// 	mailType:value
 		// })
 
-		if(value != ''){
+		if(value !== ''){
 			this.inputtitle1(value,'title1',0)
 			this.inputtitle1(value,'title2',1)
 			this.inputtitle1(value,'content',2)
@@ -115,8 +115,8 @@ class Mail extends Component {
 	inputtitle1 = (value,key,number) => {
 		var x = this.state.obj;
 		for(var i = 0; i < x.length; i++){
-			if(value == x[i].dataid){
-				if(key != '' &&  typeof(number) == 'number'){
+			if(value === x[i].dataid){
+				if(key !== '' &&  typeof(number) === 'number'){
 					this.setState ({
 						[key]:x[i].texts[number]
 					})

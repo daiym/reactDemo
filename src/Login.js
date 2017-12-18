@@ -71,7 +71,7 @@ class Login extends Component {
 			        	cmd:'login.login',
 			        })
 		    	}).then(function(r){
-		    		if(r.data.errorcode == 0){
+		    		if(r.data.errorcode === 0){
 		    			var res = JSON.parse(r.data.result);
 		    			console.log('login.login: ',res)
 		    			var signkey = CryptoJS.HmacMD5(nonce + res.nonce,pwdkey).toString();

@@ -4,11 +4,14 @@ import { Select,Row, Col } from 'antd';
 const Option = Select.Option;
  
 class Selected extends Component {
+
 	render(){
 		const name = this.props.name;
 		const val = this.props.val;
 		const data = this.props.data;
 		const onChange = this.props.onChange;
+		const allowClear = this.props.allowClear ? true:false;
+		const disabled = this.props.disabled ? true:false;
 		  return (
 		  	<div className="marginButton">
 		  		<Row>
@@ -22,6 +25,8 @@ class Selected extends Component {
 							style={{ width: 200 }}
 							mode="multiple"
 							placeholder={val}
+							allowClear = {allowClear}
+							disabled = {disabled}
 							// optionFilterProp="children"
 							onChange={onChange}
 							filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

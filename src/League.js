@@ -75,7 +75,7 @@ class League extends Component {
 				titlename:'入盟基地等级要求'
 			}];
 			let list = [];
-			if(res.info!=''){
+			if(res.info !== ''){
 				for(var i in res.info){
 					list = [info.names.id,
 								info.names.shortname,
@@ -89,9 +89,9 @@ class League extends Component {
 								info.applycitylevel]
 				}
 			}
-			for(var i = 0; i < data.length; i++){
-				data[i].key = i;
-				data[i].result = list[i];
+			for(var s = 0; s < data.length; s++){
+				data[s].key = s;
+				data[s].result = list[s];
 			}
 			let base = [];
 			for(var index in res){

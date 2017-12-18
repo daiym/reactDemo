@@ -4,9 +4,9 @@ import Selects from './Select';
 import Tab from './Tab';
 import Inputvalue from './Inputvalue';
 import Button from './Button';
-import DateTime from './DateTime';
-import Formats from './Formats';
-import Format from './Format';
+// import DateTime from './DateTime';
+// import Formats from './Formats';
+// import Format from './Format';
 import Ajax from './Ajax';//Ajax
 import { Select,message, } from 'antd';
 const Option = Select.Option;
@@ -150,7 +150,7 @@ class Newerlog extends Component {
 		var Sourcethree = [];
 		var building = [];
 		var task = [];
-		if(typeof(str) == "string"){
+		if(typeof(str) === "string"){
 			var str = JSON.parse(str);
 		}
 		console.log(str)
@@ -167,9 +167,9 @@ class Newerlog extends Component {
 			})
 			var counter = str[i].counter;
 			for(var x = 0; x < counter.length; x++){
-				if(counter[x].key.type == 1){
+				if(counter[x].key.type === 1){
 					building.push(counter[x]);
-				}else if(counter[x].key.type == 2){
+				}else if(counter[x].key.type === 2){
 					task.push(counter[x]);
 				}
 				
